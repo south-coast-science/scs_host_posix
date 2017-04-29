@@ -8,6 +8,9 @@ import http.client
 
 import urllib.parse
 
+from scs_core.sys.http_exception import HTTPException
+from scs_core.sys.http_status import HTTPStatus
+
 
 # --------------------------------------------------------------------------------------------------------------------
 
@@ -15,9 +18,6 @@ class HTTPClient(object):
     """
     classdocs
     """
-
-    __STATUS_OK =       200
-
 
     # ----------------------------------------------------------------------------------------------------------------
 
@@ -48,47 +48,44 @@ class HTTPClient(object):
 
         # request...
         self.__conn.request("GET", query, None, headers)
-        response = self.__conn.getresponse()
 
         # response...
-        if response.status != HTTPClient.__STATUS_OK:
-            raise RuntimeError("HTTPClient.get: status:%d reason:%s" % (response.status, response.reason))
-
+        response = self.__conn.getresponse()
         data = response.read()
+
+        # error...
+        if response.status != HTTPStatus.OK:
+            raise HTTPException.construct(response, data)
 
         return data.decode()
 
 
     def post(self, path, payload, headers):
-        # data...
-        encoded_payload = urllib.parse.urlencode(payload) if payload else None
-
         # request...
-        self.__conn.request("POST", path, encoded_payload, headers)
-        response = self.__conn.getresponse()
+        self.__conn.request("POST", path, payload, headers)
 
         # response...
-        if response.status != HTTPClient.__STATUS_OK:
-            raise RuntimeError("HTTPClient.post: status:%d reason:%s" % (response.status, response.reason))
-
+        response = self.__conn.getresponse()
         data = response.read()
+
+        # error...
+        if response.status != HTTPStatus.CREATED:
+            raise HTTPException.construct(response, data)
 
         return data.decode()
 
 
     def put(self, path, payload, headers):
-        # data...
-        encoded_payload = urllib.parse.urlencode(payload) if payload else None
-
         # request...
-        self.__conn.request("PUT", path, encoded_payload, headers)
-        response = self.__conn.getresponse()
+        self.__conn.request("PUT", path, payload, headers)
 
         # response...
-        if response.status != HTTPClient.__STATUS_OK:
-            raise RuntimeError("HTTPClient.put: status:%d reason:%s" % (response.status, response.reason))
-
+        response = self.__conn.getresponse()
         data = response.read()
+
+        # error...
+        if response.status != HTTPStatus.OK and response.status != HTTPStatus.NO_CONTENT:
+            raise HTTPException.construct(response, data)
 
         return data.decode()
 
@@ -96,13 +93,14 @@ class HTTPClient(object):
     def delete(self, path, headers):
         # request...
         self.__conn.request("DELETE", path, "", headers)
-        response = self.__conn.getresponse()
 
         # response...
-        if response.status != HTTPClient.__STATUS_OK:
-            raise RuntimeError("HTTPClient.delete: status:%d reason:%s" % (response.status, response.reason))
-
+        response = self.__conn.getresponse()
         data = response.read()
+
+        # error...
+        if response.status != HTTPStatus.NO_CONTENT:
+            raise HTTPException.construct(response, data)
 
         return data.decode()
 
