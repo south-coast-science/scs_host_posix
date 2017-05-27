@@ -74,6 +74,7 @@ class UDS(ProcessComms):
         try:
             # check availability...
             os.unlink(self.__address)
+
         except OSError:
             if os.path.exists(self.__address):
                 raise
@@ -99,6 +100,7 @@ class UDS(ProcessComms):
                 # socket...
                 self.__socket.connect(self.__address)
                 break
+
             except socket.error:
                 if not wait_for_availability:
                     raise
