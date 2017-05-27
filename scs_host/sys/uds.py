@@ -70,7 +70,7 @@ class UDS(ProcessComms):
 
     # ----------------------------------------------------------------------------------------------------------------
 
-    def read(self):
+    def read(self):                                             # blocking
         try:
             # check availability...
             os.unlink(self.__address)

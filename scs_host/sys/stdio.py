@@ -35,7 +35,7 @@ class StdIO(ProcessComms):
             yield line.strip()
 
 
-    def write(self, message, wait_for_availability=True):       # message flushed on close
+    def write(self, message, wait_for_availability=True):       # message should be flushed on close
         print(message.strip())
 
 
