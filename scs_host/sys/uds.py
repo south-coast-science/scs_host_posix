@@ -26,7 +26,7 @@ class UDS(ProcessComms):
     classdocs
     """
 
-    __BACKLOG = 1
+    __BACKLOG = 1          # the number of unaccepted connections the system will allow before refusing new connections
     __BUFFER_SIZE = 1024
 
 
@@ -44,7 +44,7 @@ class UDS(ProcessComms):
 
             message += data
 
-        return message
+        return message.decode()
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ class UDS(ProcessComms):
 
     def read(self):
         try:
-            # availability...
+            # check availability...
             os.unlink(self.__address)
         except OSError:
             if os.path.exists(self.__address):
@@ -87,13 +87,13 @@ class UDS(ProcessComms):
 
             try:
                 # data...
-                yield UDS.__read(connection).decode().strip()
+                yield UDS.__read(connection).strip()
 
             finally:
                 connection.close()
 
 
-    def write(self, message, wait_for_availability=True):       # message dispatched on close
+    def write(self, message, wait_for_availability=True):       # message is dispatched on close()
         while True:
             try:
                 # socket...
@@ -106,7 +106,7 @@ class UDS(ProcessComms):
                 time.sleep(0.1)
 
         # data...
-        self.__socket.sendall(message.encode())
+        self.__socket.sendall(message.strip().encode())
 
 
     # ----------------------------------------------------------------------------------------------------------------
