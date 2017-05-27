@@ -13,18 +13,35 @@ import os
 import socket
 import time
 
+from scs_core.sys.process_comms import ProcessComms
 
-# TODO: create a common comms abstraction?
 
 # --------------------------------------------------------------------------------------------------------------------
 
-class UDS(object):
+class UDS(ProcessComms):
     """
     classdocs
     """
 
     __BACKLOG = 1
     __BUFFER_SIZE = 255
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+
+    @classmethod
+    def __read(cls, connection):
+        message = b''
+
+        while True:
+            data = connection.recv(cls.__BUFFER_SIZE)
+
+            if not data:
+                break
+
+            message += data
+
+        return message
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -39,43 +56,32 @@ class UDS(object):
 
     # ----------------------------------------------------------------------------------------------------------------
 
-    def read(self):         # blocks forever
-        # socket...
+    def read(self):         # warning: blocks forever
         try:
-            # socket already exists?
             os.unlink(self.__address)
         except OSError:
             if os.path.exists(self.__address):
                 raise
 
+        # socket...
         self.__socket.bind(self.__address)
         self.__socket.listen(UDS.__BACKLOG)
 
-        # data...
         while True:
             connection, _ = self.__socket.accept()
 
             try:
-                message = b''
-
-                while True:
-                    data = connection.recv(UDS.__BUFFER_SIZE)
-
-                    if not data:
-                        break
-
-                    message += data
-
-                yield message.decode().strip()
+                # data...
+                yield UDS.__read(connection).decode().strip()
 
             finally:
                 connection.close()
 
 
     def write(self, message, wait_for_availability=True):       # TODO: should be co-routine?
-        # socket...
         while True:
             try:
+                # socket...
                 self.__socket.connect(self.__address)
                 break
             except socket.error:
@@ -84,8 +90,8 @@ class UDS(object):
 
                 time.sleep(0.1)
 
-        # data...
         try:
+            # data...
             self.__socket.sendall(message.encode())
 
         finally:
