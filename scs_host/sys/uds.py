@@ -3,8 +3,11 @@ Created on 26 May 2017
 
 @author: Bruno Beloff (bruno.beloff@southcoastscience.com)
 
-Note: only one reader per UDS! Reader must be started before writer.
-Note: multiple writers are permitted per UDS.
+A Unix domain socket abstraction, implementing ProcessComms
+
+Notes: 
+* Only one reader per UDS
+* Reader should be started before writer
 
 https://pymotw.com/2/socket/uds.html
 """
@@ -24,7 +27,7 @@ class UDS(ProcessComms):
     """
 
     __BACKLOG = 1
-    __BUFFER_SIZE = 255
+    __BUFFER_SIZE = 1024
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -51,13 +54,25 @@ class UDS(ProcessComms):
         Constructor
         """
         self.__address = address
-        self.__socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+        self.__socket = None
 
 
     # ----------------------------------------------------------------------------------------------------------------
 
-    def read(self):         # warning: blocks forever
+    def connect(self):
+        self.__socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+
+
+    def close(self):
+        if self.__socket:
+            self.__socket.close()
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+
+    def read(self):
         try:
+            # availability...
             os.unlink(self.__address)
         except OSError:
             if os.path.exists(self.__address):
@@ -78,7 +93,7 @@ class UDS(ProcessComms):
                 connection.close()
 
 
-    def write(self, message, wait_for_availability=True):       # TODO: should be co-routine?
+    def write(self, message, wait_for_availability=True):       # message dispatched on close
         while True:
             try:
                 # socket...
@@ -90,17 +105,8 @@ class UDS(ProcessComms):
 
                 time.sleep(0.1)
 
-        try:
-            # data...
-            self.__socket.sendall(message.encode())
-
-        finally:
-            self.__socket.close()
-
-
-    def close(self):
-        if self.__socket:
-            self.__socket.close()
+        # data...
+        self.__socket.sendall(message.encode())
 
 
     # ----------------------------------------------------------------------------------------------------------------

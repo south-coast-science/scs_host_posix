@@ -19,12 +19,14 @@ from scs_host.sys.uds import UDS
 
 # --------------------------------------------------------------------------------------------------------------------
 
-server_address = './test_socket.uds'
+server_address = '/Users/bruno/Python/Mac/scs_analysis/scs_analysis/osio_mqtt_sub.uds'
 
 uds = UDS(server_address)
 print(uds)
 
 try:
+    uds.connect()
+
     for message in uds.read():
         now = LocalizedDatetime.now()
         print("%s: got:[%s]" % (now.as_iso8601(), message))
