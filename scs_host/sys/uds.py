@@ -26,7 +26,7 @@ class UDS(ProcessComms):
     classdocs
     """
 
-    __BACKLOG = 1          # the number of unaccepted connections the system will allow before refusing new connections
+    __BACKLOG = 1          # number of unaccepted connections the system will allow before refusing new connections
     __BUFFER_SIZE = 1024
 
 
@@ -71,41 +71,37 @@ class UDS(ProcessComms):
     # ----------------------------------------------------------------------------------------------------------------
 
     def read(self):                                             # blocking
-        try:
-            # check availability...
-            os.unlink(self.__address)
-
-        except OSError:
-            if os.path.exists(self.__address):
-                raise
-
         # socket...
         self.__socket.bind(self.__address)
         self.__socket.listen(UDS.__BACKLOG)
 
-        while True:
-            connection, _ = self.__socket.accept()
+        try:
+            while True:
+                connection, _ = self.__socket.accept()
 
-            try:
-                # data...
-                yield UDS.__read(connection).strip()
+                try:
+                    # data...
+                    yield UDS.__read(connection).strip()
 
-            finally:
-                connection.close()
+                finally:
+                    connection.close()
+
+        finally:
+            os.unlink(self.__address)
 
 
     def write(self, message, wait_for_availability=True):       # message is dispatched on close()
+        # socket...
         while True:
             try:
-                # socket...
                 self.__socket.connect(self.__address)
                 break
 
-            except socket.error:
+            except (socket.error, FileNotFoundError) as ex:
                 if not wait_for_availability:
-                    raise
+                    raise ConnectionRefusedError(ex)
 
-                time.sleep(0.1)
+            time.sleep(0.1)
 
         # data...
         self.__socket.sendall(message.strip().encode())
