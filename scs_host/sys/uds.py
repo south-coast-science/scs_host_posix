@@ -53,8 +53,8 @@ class UDS(ProcessComms):
         """
         Constructor
         """
-        self.__address = address
-        self.__socket = None
+        self.__address = address            # string
+        self.__socket = None                # socket.socket
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -113,5 +113,12 @@ class UDS(ProcessComms):
 
     # ----------------------------------------------------------------------------------------------------------------
 
+    @property
+    def address(self):
+        return self.__address
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+
     def __str__(self, *args, **kwargs):
-            return "UDS:{address:%s, socket:%s}" % (self.__address, self.__socket)
+            return "UDS:{address:%s, socket:%s}" % (self.address, self.__socket)
