@@ -5,9 +5,7 @@ Created on 26 May 2017
 
 A Unix domain socket abstraction, implementing ProcessComms
 
-Notes: 
-* Only one reader per UDS
-* Reader should be started before writer
+Only one reader per UDS!
 
 https://pymotw.com/2/socket/uds.html
 """
