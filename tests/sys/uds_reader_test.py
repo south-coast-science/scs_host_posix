@@ -14,14 +14,14 @@ import sys
 
 from scs_core.data.localized_datetime import LocalizedDatetime
 
-from scs_host.sys.uds import UDS
+from scs_host.comms.domain_socket import DomainSocket
 
 
 # --------------------------------------------------------------------------------------------------------------------
 
 server_address = '/Users/bruno/Python/Mac/scs_analysis/scs_analysis/osio_mqtt_sub.uds'
 
-uds = UDS(server_address)
+uds = DomainSocket(server_address)
 print(uds)
 
 try:
