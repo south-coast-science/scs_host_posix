@@ -108,6 +108,8 @@ class NetworkSocket(ProcessComms):
 
                 self.close()
 
+                time.sleep(0.1)
+
                 self.__socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 self.connect(True)
 
