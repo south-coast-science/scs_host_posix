@@ -19,9 +19,11 @@ class Host(Node):
     Any Darwin Mac
     """
 
-    __SCS_CONF =    'SCS/conf/'         # hard-coded path
-    __SCS_AWS =     'SCS/aws/'          # hard-coded path
-    __SCS_OSIO =    'SCS/osio/'         # hard-coded path
+    __SCS =         'SCS/'              # hard-coded path
+
+    __SCS_CONF =    'conf/'             # hard-coded path
+    __SCS_AWS =     'aws/'              # hard-coded path
+    __SCS_OSIO =    'osio/'             # hard-coded path
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -32,15 +34,20 @@ class Host(Node):
 
 
     @classmethod
+    def scs_dir(cls):
+        return os.path.expanduser('~') + '/' + cls.__SCS
+
+
+    @classmethod
     def conf_dir(cls):
-        return os.path.expanduser('~') + '/' + cls.__SCS_CONF
+        return os.path.expanduser('~') + '/' + cls.__SCS + cls.__SCS_CONF
 
 
     @classmethod
     def aws_dir(cls):
-        return os.path.expanduser('~') + '/' + cls.__SCS_AWS
+        return os.path.expanduser('~') + '/' + cls.__SCS + cls.__SCS_AWS
 
 
     @classmethod
     def osio_dir(cls):
-        return os.path.expanduser('~') + '/' + cls.__SCS_OSIO
+        return os.path.expanduser('~') + '/' + cls.__SCS + cls.__SCS_OSIO
