@@ -103,7 +103,7 @@ class HTTPClient(object):
         data = response.read()
 
         # error...
-        if response.status != HTTPStatus.NO_CONTENT:
+        if response.status != HTTPStatus.OK and response.status != HTTPStatus.NO_CONTENT:
             raise HTTPException.construct(response, data)
 
         return data.decode()
