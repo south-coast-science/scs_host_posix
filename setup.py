@@ -16,7 +16,7 @@ except ImportError:
 
 setup(
     name='scs_host_posix',
-    version='0.1.3',
+    version='0.1.4',
     description='Abstractions for POSIX based systems',
     author='South Coast Science',
     author_email='contact@southcoastscience.com',
