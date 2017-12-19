@@ -30,7 +30,10 @@ class Host(Node):
 
     @classmethod
     def name(cls):
-        return socket.gethostname()
+        full_name = socket.gethostname()
+        full_names = full_name.split('.')
+
+        return full_names[0]
 
 
     @classmethod
