@@ -29,11 +29,18 @@ class HTTPClient(object):
         self.__host = None
 
 
-    def connect(self, host, secure=True):
+    def connect(self, host, secure=True, timeout=None):
         if secure:
-            self.__conn = http.client.HTTPSConnection(host)
+            if timeout:
+                self.__conn = http.client.HTTPSConnection(host, timeout=timeout)
+            else:
+                self.__conn = http.client.HTTPSConnection(host)
+
         else:
-            self.__conn = http.client.HTTPConnection(host)
+            if timeout:
+                self.__conn = http.client.HTTPConnection(host, timeout=timeout)
+            else:
+                self.__conn = http.client.HTTPConnection(host)
 
         self.__host = host
 

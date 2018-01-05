@@ -30,7 +30,30 @@ class Host(Node):
 
     @classmethod
     def name(cls):
-        return socket.gethostname()
+        full_name = socket.gethostname()
+        full_names = full_name.split('.')
+
+        return full_names[0]
+
+
+    @classmethod
+    def ndir_spi_bus(cls):
+        raise NotImplementedError
+
+
+    @classmethod
+    def ndir_spi_device(cls):
+        raise NotImplementedError
+
+
+    @classmethod
+    def opc_spi_bus(cls):
+        raise NotImplementedError
+
+
+    @classmethod
+    def opc_spi_device(cls):
+        raise NotImplementedError
 
 
     @classmethod
