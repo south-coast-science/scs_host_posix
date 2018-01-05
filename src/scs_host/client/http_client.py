@@ -42,7 +42,6 @@ class HTTPClient(object):
             else:
                 self.__conn = http.client.HTTPConnection(host)
 
-
         self.__host = host
 
 
