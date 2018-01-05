@@ -37,6 +37,26 @@ class Host(Node):
 
 
     @classmethod
+    def ndir_spi_bus(cls):
+        raise NotImplementedError
+
+
+    @classmethod
+    def ndir_spi_device(cls):
+        raise NotImplementedError
+
+
+    @classmethod
+    def opc_spi_bus(cls):
+        raise NotImplementedError
+
+
+    @classmethod
+    def opc_spi_device(cls):
+        raise NotImplementedError
+
+
+    @classmethod
     def scs_dir(cls):
         return os.path.expanduser('~') + '/' + cls.__SCS
 
