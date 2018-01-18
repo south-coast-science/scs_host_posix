@@ -5,5 +5,5 @@ _Contains library classes only._
 
 **Required libraries:** 
 
-* Third party: pycurl, paho-mqtt
+* Third party: AWSIoTPythonSDK, paho-mqtt-mqtt, pycurl
 * SCS root: scs_core
