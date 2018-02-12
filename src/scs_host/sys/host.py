@@ -9,6 +9,8 @@ http://stackoverflow.com/questions/4271740/how-can-i-use-python-to-get-the-syste
 import os
 import socket
 
+from pathlib import Path
+
 from scs_core.sys.node import Node
 
 
@@ -16,14 +18,14 @@ from scs_core.sys.node import Node
 
 class Host(Node):
     """
-    Any Darwin Mac
+    Any Darwin Mac or Linux
     """
 
-    __SCS =         'SCS/'              # hard-coded path
+    __SCS_DIR =             "SCS"                               # hard-coded rel path
 
-    __SCS_CONF =    'conf/'             # hard-coded path
-    __SCS_AWS =     'aws/'              # hard-coded path
-    __SCS_OSIO =    'osio/'             # hard-coded path
+    __CONF_DIR =            "conf"                              # hard-coded rel path
+    __AWS_DIR =             "aws"                               # hard-coded rel path
+    __OSIO_DIR =            "osio"                              # hard-coded rel path
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -56,21 +58,43 @@ class Host(Node):
         raise NotImplementedError
 
 
+    # ----------------------------------------------------------------------------------------------------------------
+
     @classmethod
-    def scs_dir(cls):
-        return os.path.expanduser('~') + '/' + cls.__SCS
+    def home_dir(cls):
+        return os.environ['SCS_ROOT_PATH'] if 'SCS_ROOT_PATH' in os.environ else str(Path.home())
+
+
+    @classmethod
+    def lock_dir(cls):
+        raise NotImplementedError
+
+
+    @classmethod
+    def tmp_dir(cls):
+        raise NotImplementedError
+
+
+    @classmethod
+    def command_dir(cls):
+        raise NotImplementedError
 
 
     @classmethod
     def conf_dir(cls):
-        return os.path.expanduser('~') + '/' + cls.__SCS + cls.__SCS_CONF
+        return os.path.join(cls.home_dir(), cls.__SCS_DIR, cls.__CONF_DIR)
 
 
     @classmethod
     def aws_dir(cls):
-        return os.path.expanduser('~') + '/' + cls.__SCS + cls.__SCS_AWS
+        return os.path.join(cls.home_dir(), cls.__SCS_DIR, cls.__AWS_DIR)
 
 
     @classmethod
     def osio_dir(cls):
-        return os.path.expanduser('~') + '/' + cls.__SCS + cls.__SCS_OSIO
+        return os.path.join(cls.home_dir(), cls.__SCS_DIR, cls.__OSIO_DIR)
+
+
+    @classmethod
+    def eep_image(cls):
+        raise NotImplementedError
