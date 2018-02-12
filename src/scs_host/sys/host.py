@@ -16,14 +16,12 @@ from scs_core.sys.node import Node
 
 class Host(Node):
     """
-    Any Darwin Mac
+    Any Darwin Mac or Linux
     """
 
-    __SCS =         'SCS/'              # hard-coded path
-
-    __SCS_CONF =    'conf/'             # hard-coded path
-    __SCS_AWS =     'aws/'              # hard-coded path
-    __SCS_OSIO =    'osio/'             # hard-coded path
+    __CONF_DIR =            "SCS/conf/"                         # hard-coded rel path
+    __AWS_DIR =             "SCS/aws/"                          # hard-coded rel path
+    __OSIO_DIR =            "SCS/osio/"                         # hard-coded rel path
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -56,21 +54,43 @@ class Host(Node):
         raise NotImplementedError
 
 
+    # ----------------------------------------------------------------------------------------------------------------
+
     @classmethod
-    def scs_dir(cls):
-        return os.path.expanduser('~') + '/' + cls.__SCS
+    def home_dir(cls):
+        return os.path.expanduser('~') + '/'
+
+
+    @classmethod
+    def lock_dir(cls):
+        raise NotImplementedError
+
+
+    @classmethod
+    def tmp_dir(cls):
+        raise NotImplementedError
+
+
+    @classmethod
+    def command_dir(cls):
+        raise NotImplementedError
 
 
     @classmethod
     def conf_dir(cls):
-        return os.path.expanduser('~') + '/' + cls.__SCS + cls.__SCS_CONF
+        return cls.home_dir() + cls.__CONF_DIR
 
 
     @classmethod
     def aws_dir(cls):
-        return os.path.expanduser('~') + '/' + cls.__SCS + cls.__SCS_AWS
+        return cls.home_dir() + cls.__AWS_DIR
 
 
     @classmethod
     def osio_dir(cls):
-        return os.path.expanduser('~') + '/' + cls.__SCS + cls.__SCS_OSIO
+        return cls.home_dir() + cls.__OSIO_DIR
+
+
+    @classmethod
+    def eep_image(cls):
+        raise NotImplementedError
