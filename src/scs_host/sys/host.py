@@ -9,6 +9,8 @@ http://stackoverflow.com/questions/4271740/how-can-i-use-python-to-get-the-syste
 import os
 import socket
 
+from pathlib import Path
+
 from scs_core.sys.node import Node
 
 
@@ -58,7 +60,7 @@ class Host(Node):
 
     @classmethod
     def home_dir(cls):
-        return os.path.expanduser('~') + '/'
+        return os.environ['SCS_ROOT_PATH'] if 'SCS_ROOT_PATH' in os.environ else Path.home() + '/'
 
 
     @classmethod
