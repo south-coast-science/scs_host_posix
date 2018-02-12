@@ -21,9 +21,11 @@ class Host(Node):
     Any Darwin Mac or Linux
     """
 
-    __CONF_DIR =            "SCS/conf"                          # hard-coded rel path
-    __AWS_DIR =             "SCS/aws"                           # hard-coded rel path
-    __OSIO_DIR =            "SCS/osio"                          # hard-coded rel path
+    __SCS_DIR =             "SCS"                               # hard-coded rel path
+
+    __CONF_DIR =            "conf"                              # hard-coded rel path
+    __AWS_DIR =             "aws"                               # hard-coded rel path
+    __OSIO_DIR =            "osio"                              # hard-coded rel path
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -80,17 +82,17 @@ class Host(Node):
 
     @classmethod
     def conf_dir(cls):
-        return os.path.join(cls.home_dir(), cls.__CONF_DIR)
+        return os.path.join(cls.home_dir(), cls.__SCS_DIR, cls.__CONF_DIR)
 
 
     @classmethod
     def aws_dir(cls):
-        return os.path.join(cls.home_dir(), cls.__AWS_DIR)
+        return os.path.join(cls.home_dir(), cls.__SCS_DIR, cls.__AWS_DIR)
 
 
     @classmethod
     def osio_dir(cls):
-        return os.path.join(cls.home_dir(), cls.__OSIO_DIR)
+        return os.path.join(cls.home_dir(), cls.__SCS_DIR, cls.__OSIO_DIR)
 
 
     @classmethod
