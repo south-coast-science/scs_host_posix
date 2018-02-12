@@ -21,6 +21,8 @@ class Host(Node):
     Any Darwin Mac or Linux
     """
 
+    OS_ENV_PATH =           'SCS_ROOT_PATH'
+
     __SCS_DIR =             "SCS"                               # hard-coded rel path
 
     __CONF_DIR =            "conf"                              # hard-coded rel path
@@ -62,8 +64,7 @@ class Host(Node):
 
     @classmethod
     def home_dir(cls):
-        return os.environ['SCS_ROOT_PATH'] if 'SCS_ROOT_PATH' in os.environ else str(Path.home())
-
+        return os.environ[cls.OS_ENV_PATH] if cls.OS_ENV_PATH in os.environ else str(Path.home())
 
     @classmethod
     def lock_dir(cls):
