@@ -12,7 +12,7 @@ from scs_core.sys.filesystem import Filesystem
 from scs_host.sys.host import Host
 
 
-# TODO: add disk usage command to scs_dev?
+# TODO: add disk usage command to scs_mfr
 
 # --------------------------------------------------------------------------------------------------------------------
 
