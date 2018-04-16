@@ -4,6 +4,7 @@ Created on 20 Nov 2016
 @author: Bruno Beloff (bruno.beloff@southcoastscience.com)
 
 http://stackoverflow.com/questions/4271740/how-can-i-use-python-to-get-the-system-hostname
+http://code.activestate.com/recipes/577972-disk-usage/
 """
 
 import os
@@ -11,6 +12,7 @@ import socket
 
 from pathlib import Path
 
+from scs_core.sys.disk_usage_datum import DiskUsageDatum
 from scs_core.sys.node import Node
 
 
@@ -58,6 +60,19 @@ class Host(Node):
     @classmethod
     def opc_spi_device(cls):
         raise NotImplementedError
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+
+    @classmethod
+    def disk_usage(cls, path):
+        st = os.statvfs(path)
+
+        free = st.f_bavail * st.f_frsize
+        total = st.f_blocks * st.f_frsize
+        used = (st.f_blocks - st.f_bfree) * st.f_frsize
+
+        return DiskUsageDatum(free, total, used)
 
 
     # ----------------------------------------------------------------------------------------------------------------
