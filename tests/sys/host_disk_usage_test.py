@@ -11,6 +11,8 @@ from scs_core.data.json import JSONify
 from scs_host.sys.host import Host
 
 
+# TODO: add disk usage command to scs_dev?
+
 # --------------------------------------------------------------------------------------------------------------------
 
 path = '/Users/bruno'
