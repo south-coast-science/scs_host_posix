@@ -12,7 +12,7 @@ import socket
 
 from pathlib import Path
 
-from scs_core.sys.disk_usage_datum import DiskUsageDatum
+from scs_core.sys.disk_usage import DiskUsage
 from scs_core.sys.node import Node
 
 
@@ -65,14 +65,14 @@ class Host(Node):
     # ----------------------------------------------------------------------------------------------------------------
 
     @classmethod
-    def disk_usage(cls, path):
-        st = os.statvfs(path)
+    def disk_usage(cls, volume):
+        st = os.statvfs(volume)
 
         free = st.f_bavail * st.f_frsize
         total = st.f_blocks * st.f_frsize
         used = (st.f_blocks - st.f_bfree) * st.f_frsize
 
-        return DiskUsageDatum(free, total, used)
+        return DiskUsage(volume, free, total, used)
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -80,6 +80,7 @@ class Host(Node):
     @classmethod
     def home_dir(cls):
         return os.environ[cls.OS_ENV_PATH] if cls.OS_ENV_PATH in os.environ else str(Path.home())
+
 
     @classmethod
     def lock_dir(cls):
