@@ -37,7 +37,7 @@ class HTTPClient(object):
             context = None if verified else ssl._create_unverified_context()
 
             if timeout:
-                self.__conn = http.client.HTTPSConnection(host, timeout=timeout, context=context)
+                self.__conn = http.client.HTTPSConnection(host, context=context, timeout=timeout)
             else:
                 self.__conn = http.client.HTTPSConnection(host, context=context)
 
