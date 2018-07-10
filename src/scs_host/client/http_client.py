@@ -4,6 +4,8 @@ Created on 9 Nov 2016
 @author: Bruno Beloff (bruno.beloff@southcoastscience.com)
 """
 
+import ssl
+
 import http.client
 
 import urllib.parse
@@ -29,12 +31,15 @@ class HTTPClient(object):
         self.__host = None
 
 
-    def connect(self, host, secure=True, timeout=None):
+    def connect(self, host, secure=True, verified=True, timeout=None):
         if secure:
+            # noinspection PyProtectedMember
+            context = None if verified else ssl._create_unverified_context()
+
             if timeout:
-                self.__conn = http.client.HTTPSConnection(host, timeout=timeout)
+                self.__conn = http.client.HTTPSConnection(host, context=context, timeout=timeout)
             else:
-                self.__conn = http.client.HTTPSConnection(host)
+                self.__conn = http.client.HTTPSConnection(host, context=context)
 
         else:
             if timeout:
