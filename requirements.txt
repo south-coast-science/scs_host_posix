@@ -1,3 +1,1 @@
-paho-mqtt
-pycurl
 scs_core==0.1.9
