@@ -1,11 +1,12 @@
 # scs_host_posix
-Host abstractions for data consumers running POSIX-compatible operating systems.
+Host abstractions for data consumers running POSIX-compliant operating systems, including Windows 10.
 
 _Contains library classes only._
 
 **Required libraries:** 
 
-* Third party: AWSIoTPythonSDK, paho-mqtt-mqtt, pycurl
+* Third party (always required): AWSIoTPythonSDK, tzlocal
+* Third party (to enable OSIO data access) paho-mqtt, pycurl
 * SCS root: scs_core
 
 
