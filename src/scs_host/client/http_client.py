@@ -32,6 +32,8 @@ class HTTPClient(object):
 
 
     def connect(self, host, secure=True, verified=True, timeout=None):
+        print("connect: host: %s" % host)
+
         if secure:
             # noinspection PyProtectedMember
             context = None if verified else ssl._create_unverified_context()
@@ -61,6 +63,8 @@ class HTTPClient(object):
         # data...
         params = urllib.parse.urlencode(payload) if payload else None
         query = path + '?' + params if params else path
+
+        print("get: query: %s" % query)
 
         # request...
         self.__conn.request("GET", query, None, headers)
