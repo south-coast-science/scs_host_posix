@@ -32,7 +32,7 @@ class HTTPClient(object):
 
 
     def connect(self, host, secure=True, verified=True, timeout=None):
-        print("connect: host: %s" % host)
+        # print("connect: host: %s" % host)
 
         if secure:
             # noinspection PyProtectedMember
@@ -64,7 +64,7 @@ class HTTPClient(object):
         params = urllib.parse.urlencode(payload) if payload else None
         query = path + '?' + params if params else path
 
-        print("get: query: %s" % query)
+        # print("get: query: %s" % query)
 
         # request...
         self.__conn.request("GET", query, None, headers)
