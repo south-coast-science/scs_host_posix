@@ -30,9 +30,13 @@ class SFTPClient(object):
     # ----------------------------------------------------------------------------------------------------------------
 
     def connect(self, username=None, private_key=None, password=None, port=22, private_key_pass=None, ciphers=None,
-                log=False, cnopts=None, default_path='.'):
+                cnopts=None, default_path=None):
+
+        # cnopts = pysftp.CnOpts()
+        # cnopts.log = True
+
         self.__conn = pysftp.Connection(self.__host, username=username, private_key=private_key, password=password,
-                                        port=port, private_key_pass=private_key_pass, ciphers=ciphers, log=log,
+                                        port=port, private_key_pass=private_key_pass, ciphers=ciphers,
                                         cnopts=cnopts, default_path=default_path)
 
 
@@ -64,11 +68,11 @@ class SFTPClient(object):
         return self.__conn.exists(remote_path)
 
 
-    def get(self, remote_path, local_path=None, callback=None, preserve_mtime=False):
+    def get(self, remote_path, local_path=None, callback=None):
         if not self.__conn:
             raise RuntimeError('no connection')
 
-        self.__conn.get(remote_path, local_path, callback, preserve_mtime)
+        self.__conn.get(remote_path, local_path, callback=callback)
 
 
     def listdir(self, remote_path='.'):
@@ -85,11 +89,11 @@ class SFTPClient(object):
         self.__conn.mkdir(remote_path)
 
 
-    def put(self, local_path, remote_path=None, callback=None, confirm=True, preserve_mtime=False):
+    def put(self, local_path, remote_path=None, callback=None, confirm=True):
         if not self.__conn:
             raise RuntimeError('no connection')
 
-        self.__conn.put(local_path, remote_path, callback, confirm, preserve_mtime)
+        return self.__conn.put(local_path, remote_path, callback=callback, confirm=confirm)
 
 
     def rmdir(self, remote_path):
