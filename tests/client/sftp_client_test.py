@@ -41,11 +41,11 @@ try:
     print("=")
 
     print("get...")
-    client.get('afe_baseline.json', preserve_mtime=True)
+    client.get('afe_baseline.json')
     print("-")
 
     print("put...")
-    client.put('afe_baseline.json', remote_path='afe_baseline.upload', preserve_mtime=True)
+    client.put('afe_baseline.json', remote_path='afe_baseline.upload')
     print("-")
 
     # client.close()
