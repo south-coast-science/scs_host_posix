@@ -31,6 +31,8 @@ class HTTPClient(object):
         self.__host = None
 
 
+    # ----------------------------------------------------------------------------------------------------------------
+
     def connect(self, host, secure=True, verified=True, timeout=None):
         # print("connect: host: %s" % host)
 
