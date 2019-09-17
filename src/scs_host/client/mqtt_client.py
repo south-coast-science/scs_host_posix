@@ -42,8 +42,7 @@ class MQTTClient(object):
 
     @classmethod
     def on_message_handler(cls, subscriber):
-        # noinspection PyUnusedLocal
-        def message_handler(client, userdata, msg):
+        def message_handler(_client, _userdata, msg):
             MQTTClient.on_topic_message_handler(subscriber, msg)
 
         return message_handler
@@ -111,8 +110,7 @@ class MQTTClient(object):
 
     # ----------------------------------------------------------------------------------------------------------------
 
-    # noinspection PyUnusedLocal
-    def on_connect(self, client, userdata, flags, rc):
+    def on_connect(self, _client, _userdata, _flags, _rc):
         for subscriber in self.__subscribers:
             self.__client.subscribe(subscriber.topic, qos=MQTTClient.__SUB_QOS)
 
