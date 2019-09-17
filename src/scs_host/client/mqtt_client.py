@@ -42,6 +42,7 @@ class MQTTClient(object):
 
     @classmethod
     def on_message_handler(cls, subscriber):
+        # handler...
         def message_handler(_client, _userdata, msg):
             MQTTClient.on_topic_message_handler(subscriber, msg)
 
