@@ -77,6 +77,12 @@ class Host(Node):
 
     # ----------------------------------------------------------------------------------------------------------------
 
+    def time_is_synchronized(self):
+        raise NotImplementedError()
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+
     @classmethod
     def home_dir(cls):
         return os.environ[cls.OS_ENV_PATH] if cls.OS_ENV_PATH in os.environ else str(Path.home())
