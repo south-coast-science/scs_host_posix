@@ -54,7 +54,7 @@ class MQTTClient(object):
         payload = msg.payload.decode()
         payload_jdict = json.loads(payload)
 
-        subscriber.handler(Publication(subscriber.topic, 0, payload_jdict))
+        subscriber.handler(Publication(subscriber.topic, payload_jdict))
 
 
     # ----------------------------------------------------------------------------------------------------------------
