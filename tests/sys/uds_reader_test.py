@@ -12,7 +12,7 @@ https://pymotw.com/2/socket/uds.html
 
 import sys
 
-from scs_core.data.localized_datetime import LocalizedDatetime
+from scs_core.data.datetime import LocalizedDatetime
 
 from scs_host.comms.domain_socket import DomainSocket
 
