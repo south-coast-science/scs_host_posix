@@ -23,6 +23,9 @@ class Host(Node):
     Any Darwin Mac or Linux
     """
 
+    # ----------------------------------------------------------------------------------------------------------------
+    # directories and files...
+
     OS_ENV_PATH =           'SCS_ROOT_PATH'
 
     __SCS_DIR =             "SCS"                               # hard-coded rel path
@@ -30,6 +33,23 @@ class Host(Node):
     __CONF_DIR =            "conf"                              # hard-coded rel path
     __AWS_DIR =             "aws"                               # hard-coded rel path
     __OSIO_DIR =            "osio"                              # hard-coded rel path
+
+    __LATEST_UPDATE =       "latest_update.txt"                 # hard-coded rel path
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+
+    @classmethod
+    def software_update_report(cls):
+        try:
+            f = open(os.path.join(cls.home_dir(), cls.__SCS_DIR, cls.__LATEST_UPDATE))
+            report = f.read().strip()
+            f.close()
+
+            return report
+
+        except FileNotFoundError:
+            return None
 
 
     # ----------------------------------------------------------------------------------------------------------------
