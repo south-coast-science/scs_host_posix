@@ -40,13 +40,13 @@ class HTTPClient(object):
             # noinspection PyProtectedMember
             context = None if verified else ssl._create_unverified_context()
 
-            if timeout:
+            if timeout is not None:
                 self.__conn = http.client.HTTPSConnection(host, context=context, timeout=timeout)
             else:
                 self.__conn = http.client.HTTPSConnection(host, context=context)
 
         else:
-            if timeout:
+            if timeout is not None:
                 self.__conn = http.client.HTTPConnection(host, timeout=timeout)
             else:
                 self.__conn = http.client.HTTPConnection(host)
