@@ -38,6 +38,12 @@ class Host(Node):
 
 
     # ----------------------------------------------------------------------------------------------------------------
+    # host acting as DHCP server...
+
+    __SERVER_ADDRESS =      None                                # had-coded abs path
+
+
+    # ----------------------------------------------------------------------------------------------------------------
 
     @classmethod
     def software_update_report(cls):
@@ -60,6 +66,11 @@ class Host(Node):
         full_names = full_name.split('.')
 
         return full_names[0]
+
+
+    @classmethod
+    def server_ip_address(cls):
+        return cls.__SERVER_ADDRESS
 
 
     @classmethod
