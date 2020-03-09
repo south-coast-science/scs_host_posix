@@ -41,7 +41,7 @@ class Host(Node):
     # ----------------------------------------------------------------------------------------------------------------
     # host acting as DHCP server...
 
-    __SERVER_ADDRESS =      None                                # had-coded abs path
+    __SERVER_IPV4_ADDRESS =      None                           # had-coded abs path
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ class Host(Node):
 
     @classmethod
     def server_ipv4_address(cls):
-        return IPv4Address.construct(cls.__SERVER_ADDRESS)
+        return IPv4Address.construct(cls.__SERVER_IPV4_ADDRESS)
 
 
     @classmethod
