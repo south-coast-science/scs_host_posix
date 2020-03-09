@@ -13,6 +13,7 @@ import socket
 from pathlib import Path
 
 from scs_core.sys.disk_usage import DiskUsage
+from scs_core.sys.ipv4_address import IPv4Address
 from scs_core.sys.node import Node
 
 
@@ -35,6 +36,12 @@ class Host(Node):
     __OSIO_DIR =            "osio"                              # hard-coded rel path
 
     __LATEST_UPDATE =       "latest_update.txt"                 # hard-coded rel path
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+    # host acting as DHCP server...
+
+    __SERVER_IPV4_ADDRESS =      None                           # had-coded abs path
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -61,6 +68,13 @@ class Host(Node):
 
         return full_names[0]
 
+
+    @classmethod
+    def server_ipv4_address(cls):
+        return IPv4Address.construct(cls.__SERVER_IPV4_ADDRESS)
+
+
+    # ----------------------------------------------------------------------------------------------------------------
 
     @classmethod
     def ndir_spi_bus(cls):
