@@ -74,6 +74,8 @@ class Host(Node):
         return IPv4Address.construct(cls.__SERVER_IPV4_ADDRESS)
 
 
+    # ----------------------------------------------------------------------------------------------------------------
+
     @classmethod
     def ndir_spi_bus(cls):
         raise NotImplementedError
