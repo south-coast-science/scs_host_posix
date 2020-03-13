@@ -27,12 +27,14 @@ class HTTPClient(object):
 
     # ----------------------------------------------------------------------------------------------------------------
 
-    def __init__(self):
+    def __init__(self, wait_for_network):
         """
         Constructor
         """
         self.__conn = None
         self.__host = None
+
+        self.__wait_for_network = wait_for_network
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -56,6 +58,7 @@ class HTTPClient(object):
                 self.__conn = http.client.HTTPConnection(host)
 
         self.__host = host
+
 
 
     def close(self):
@@ -127,7 +130,10 @@ class HTTPClient(object):
                 self.__conn.request(method, url, body=body, headers=headers)
                 return self.__conn.getresponse()
 
-            except socket.gaierror:                                 # Temporary failure in name resolution
+            except (socket.gaierror, http.client.CannotSendRequest):
+                if not self.__wait_for_network:
+                    raise
+
                 time.sleep(self.__NETWORK_WAIT_TIME)
 
 
@@ -136,4 +142,4 @@ class HTTPClient(object):
     def __str__(self, *args, **kwargs):
         hostname = None if self.__host is None else self.__host.name()
 
-        return "HTTPClient:{host:%s}" % hostname
+        return "HTTPClient:{host:%s, wait_for_network:%s}" % (hostname, self.__wait_for_network)
