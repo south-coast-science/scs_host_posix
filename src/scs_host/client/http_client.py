@@ -4,7 +4,9 @@ Created on 9 Nov 2016
 @author: Bruno Beloff (bruno.beloff@southcoastscience.com)
 """
 
+import socket
 import ssl
+import time
 
 import http.client
 
@@ -20,6 +22,8 @@ class HTTPClient(object):
     """
     classdocs
     """
+
+    __NETWORK_WAIT_TIME = 10.0                      # seconds
 
     # ----------------------------------------------------------------------------------------------------------------
 
@@ -69,10 +73,9 @@ class HTTPClient(object):
         # print("get: query: %s" % query)
 
         # request...
-        self.__conn.request("GET", query, None, headers)
+        response = self.__request("GET", query, None, headers)
 
         # response...
-        response = self.__conn.getresponse()
         data = response.read()
 
         # error...
@@ -84,10 +87,7 @@ class HTTPClient(object):
 
     def post(self, path, payload, headers):
         # request...
-        self.__conn.request("POST", path, payload, headers)
-
-        # response...
-        response = self.__conn.getresponse()
+        response = self.__request("POST", path, payload, headers)
         data = response.read()
 
         # error...
@@ -99,10 +99,7 @@ class HTTPClient(object):
 
     def put(self, path, payload, headers):
         # request...
-        self.__conn.request("PUT", path, payload, headers)
-
-        # response...
-        response = self.__conn.getresponse()
+        response = self.__request("PUT", path, payload, headers)
         data = response.read()
 
         # error...
@@ -114,10 +111,7 @@ class HTTPClient(object):
 
     def delete(self, path, headers):
         # request...
-        self.__conn.request("DELETE", path, "", headers)
-
-        # response...
-        response = self.__conn.getresponse()
+        response = self.__request("DELETE", path, "", headers)
         data = response.read()
 
         # error...
@@ -129,5 +123,19 @@ class HTTPClient(object):
 
     # ----------------------------------------------------------------------------------------------------------------
 
+    def __request(self, method, url, body, headers):
+        while True:
+            try:
+                self.__conn.request(method, url, body=body, headers=headers)
+                return self.__conn.getresponse()
+
+            except socket.gaierror:                                 # Temporary failure in name resolution
+                time.sleep(self.__NETWORK_WAIT_TIME)
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+
     def __str__(self, *args, **kwargs):
-        return "HTTPClient:{host:%s}" % self.__host
+        hostname = None if self.__host is None else self.__host.name()
+
+        return "HTTPClient:{host:%s}" % hostname
