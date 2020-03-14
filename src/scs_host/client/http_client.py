@@ -33,10 +33,10 @@ class HTTPClient(object):
         """
         Constructor
         """
+        self.__wait_for_network = wait_for_network
+
         self.__conn = None
         self.__host = None
-
-        self.__wait_for_network = wait_for_network
 
 
     # ----------------------------------------------------------------------------------------------------------------
