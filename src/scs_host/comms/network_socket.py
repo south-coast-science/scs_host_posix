@@ -28,7 +28,7 @@ class NetworkSocket(ProcessComms):
 
     # ----------------------------------------------------------------------------------------------------------------
 
-    def __init__(self, host, port=2000):        # a receiving socket should have host ''
+    def __init__(self, host='', port=2000):        # a receiving socket should have host ''
         """
         Constructor
         """
@@ -53,10 +53,19 @@ class NetworkSocket(ProcessComms):
                 time.sleep(0.1)
 
 
+    def accept(self):
+        self.__socket.bind(self.__address)
+        self.__socket.listen(self.__BACKLOG)
+
+        self.__conn, _ = self.__socket.accept()
+
+
     def close(self):
         try:
             if self.__conn:
                 self.__conn.close()
+                self.__conn = None
+
         except RuntimeError:
             pass
 
@@ -67,17 +76,15 @@ class NetworkSocket(ProcessComms):
 
 
     # ----------------------------------------------------------------------------------------------------------------
+    # unidirectional API...
 
     def read(self):
         # socket...
-        self.__socket.bind(self.__address)
-        self.__socket.listen(NetworkSocket.__BACKLOG)
-
-        self.__conn, _ = self.__socket.accept()
+        self.accept()
 
         # data...
         while True:
-            message = self.__conn.recv(NetworkSocket.__BUFFER_SIZE).decode().strip()
+            message = self.__conn.recv(self.__BUFFER_SIZE).decode().strip()
 
             if len(message) == 0:
                 break
@@ -92,9 +99,9 @@ class NetworkSocket(ProcessComms):
                 self.__socket.send(message.encode())
 
                 # wait for ACK...
-                timeout = time.time() + NetworkSocket.__TIMEOUT
+                timeout = time.time() + self.__TIMEOUT
 
-                while self.__socket.recv(NetworkSocket.__BUFFER_SIZE).decode() != NetworkSocket.__ACK:
+                while self.__socket.recv(self.__BUFFER_SIZE).decode() != self.__ACK:
                     time.sleep(0.001)
 
                     if time.time() > timeout:
@@ -114,10 +121,8 @@ class NetworkSocket(ProcessComms):
                 self.connect(True)
 
 
-    # ----------------------------------------------------------------------------------------------------------------
-
     def ack(self):
-        self.__conn.send(str(NetworkSocket.__ACK).encode())
+        self.__conn.send(str(self.__ACK).encode())
 
 
     # ----------------------------------------------------------------------------------------------------------------
