@@ -5,9 +5,8 @@ Created on 26 May 2017
 
 A Unix domain socket abstraction, implementing ProcessComms
 
-Only one reader per UDS!
-
 https://pymotw.com/2/socket/uds.html
+https://gist.github.com/BenKnisley/5647884
 """
 
 import os
@@ -24,9 +23,10 @@ class DomainSocket(ProcessComms):
     classdocs
     """
 
+    EOM = '\n'                              # end of message for client-server communications
+
     __BACKLOG = 1                           # number of unaccepted connections before refusing new connections
     __BUFFER_SIZE = 1024
-
 
     # ----------------------------------------------------------------------------------------------------------------
 
@@ -55,6 +55,7 @@ class DomainSocket(ProcessComms):
         self.__logger = logger              # Logger (for compatibility only)
 
         self.__socket = None                # socket.socket
+        self.__conn = None
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -63,38 +64,86 @@ class DomainSocket(ProcessComms):
         self.__socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
 
 
+    def accept(self):
+        self.__socket.bind(self.path)
+        self.__socket.listen(self.__BACKLOG)
+
+        self.__conn, _ = self.__socket.accept()
+
+
     def close(self):
         if self.__socket:
             self.__socket.close()
 
 
     # ----------------------------------------------------------------------------------------------------------------
+    # client-server API...
+
+    def server_send(self, message):
+        self.__conn.send((message + self.EOM).encode())
+
+
+    def client_send(self, message):
+        try:
+            self.__socket.connect(self.path)
+        except OSError:
+            pass                    # assume that the socket is already connected
+
+        self.__socket.send((message + self.EOM).encode())
+
+
+    def server_receive(self):
+        return self.__receive(self.__conn)
+
+
+    def client_receive(self):
+        return self.__receive(self.__socket)
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+
+    def __receive(self, channel):
+        message = ''
+        while True:
+            char = channel.recv(1).decode()
+
+            if char == self.EOM:
+                return message
+
+            if len(message) == self.__BUFFER_SIZE:
+                raise ValueError(message)
+
+            message += char
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+    # unidirectional API...
 
     def read(self):                                             # blocking
         # socket...
-        self.__socket.bind(self.__path)
+        self.__socket.bind(self.path)
         self.__socket.listen(DomainSocket.__BACKLOG)
 
         try:
             while True:
-                connection, _ = self.__socket.accept()
+                self.__conn, _ = self.__socket.accept()
 
                 try:
                     # data...
-                    yield DomainSocket.__read(connection).strip()
+                    yield DomainSocket.__read(self.__conn).strip()
 
                 finally:
-                    connection.close()
+                    self.__conn.close()
 
         finally:
-            os.unlink(self.__path)
+            os.unlink(self.path)
 
 
     def write(self, message, wait_for_availability=True):       # message is dispatched on close()
         # socket...
         while True:
             try:
-                self.__socket.connect(self.__path)
+                self.__socket.connect(self.path)
                 break
 
             except (socket.error, FileNotFoundError) as ex:
