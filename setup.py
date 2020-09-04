@@ -15,7 +15,7 @@ with open('requirements.txt') as req_txt:
 
 setuptools.setup(
     name="SCS_HOST_POSIX",
-    version="0.0.2",
+    version="0.0.1",
     author="South Coast Science",
     author_email="contact@southcoastscience.com",
     description="Host abstractions for data consumers running POSIX-compliant operating systems, including Windows 10.",
@@ -26,7 +26,7 @@ setuptools.setup(
     packages=setuptools.find_packages('src'),
     classifiers=[
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
         "License :: OSI Approved :: MIT License",
         "Operating System :: MacOS :: MacOS X",
         "Operating System :: Microsoft :: Windows :: Windows 10",
