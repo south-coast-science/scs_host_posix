@@ -1,3 +1,9 @@
+"""
+Created on 4 Sep 2020
+
+@author: Jade Page (jade.page@southcoastscience.com)
+"""
+
 import setuptools
 
 with open("README.md", "r") as fh:
