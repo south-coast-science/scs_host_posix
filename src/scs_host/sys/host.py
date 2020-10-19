@@ -29,11 +29,6 @@ class Host(Node):
     OS_ENV_PATH =           'SCS_ROOT_PATH'
 
     __SCS_DIR =             "SCS"                               # hard-coded rel path
-
-    __CONF_DIR =            "conf"                              # hard-coded rel path
-    __AWS_DIR =             "aws"                               # hard-coded rel path
-    __OSIO_DIR =            "osio"                              # hard-coded rel path
-
     __LATEST_UPDATE =       "latest_update.txt"                 # hard-coded rel path
 
 
@@ -76,73 +71,10 @@ class Host(Node):
     # ----------------------------------------------------------------------------------------------------------------
 
     @classmethod
-    def ndir_spi_bus(cls):
-        raise NotImplementedError
-
-
-    @classmethod
-    def ndir_spi_device(cls):
-        raise NotImplementedError
-
-
-    @classmethod
-    def opc_spi_bus(cls):
-        raise NotImplementedError
-
-
-    @classmethod
-    def opc_spi_device(cls):
-        raise NotImplementedError
-
-
-    # ----------------------------------------------------------------------------------------------------------------
-
-    def time_is_synchronized(self):
-        raise NotImplementedError()
-
-
-    # ----------------------------------------------------------------------------------------------------------------
-
-    @classmethod
     def home_dir(cls):
         return os.environ[cls.OS_ENV_PATH] if cls.OS_ENV_PATH in os.environ else str(Path.home())
 
 
     @classmethod
-    def lock_dir(cls):
-        raise NotImplementedError
-
-
-    @classmethod
-    def tmp_dir(cls):
-        raise NotImplementedError
-
-
-    @classmethod
-    def command_dir(cls):
-        raise NotImplementedError
-
-
-    @classmethod
     def scs_dir(cls):
         return os.path.join(cls.home_dir(), cls.__SCS_DIR)
-
-
-    @classmethod
-    def conf_dir(cls):
-        return os.path.join(cls.home_dir(), cls.__SCS_DIR, cls.__CONF_DIR)
-
-
-    @classmethod
-    def aws_dir(cls):
-        return os.path.join(cls.home_dir(), cls.__SCS_DIR, cls.__AWS_DIR)
-
-
-    @classmethod
-    def osio_dir(cls):
-        return os.path.join(cls.home_dir(), cls.__SCS_DIR, cls.__OSIO_DIR)
-
-
-    @classmethod
-    def eep_image(cls):
-        raise NotImplementedError
