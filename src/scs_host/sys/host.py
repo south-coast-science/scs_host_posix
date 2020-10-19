@@ -43,7 +43,7 @@ class Host(Node):
     @classmethod
     def software_update_report(cls):
         try:
-            f = open(os.path.join(cls.home_dir(), cls.__SCS_DIR, cls.__LATEST_UPDATE))
+            f = open(os.path.join(cls.scs_path(), cls.__LATEST_UPDATE))
             report = f.read().strip()
             f.close()
 
@@ -71,10 +71,10 @@ class Host(Node):
     # ----------------------------------------------------------------------------------------------------------------
 
     @classmethod
-    def home_dir(cls):
+    def home_path(cls):
         return os.environ[cls.OS_ENV_PATH] if cls.OS_ENV_PATH in os.environ else str(Path.home())
 
 
     @classmethod
-    def scs_dir(cls):
-        return os.path.join(cls.home_dir(), cls.__SCS_DIR)
+    def scs_path(cls):
+        return os.path.join(cls.home_path(), cls.__SCS_DIR)

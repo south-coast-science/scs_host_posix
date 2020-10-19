@@ -11,36 +11,13 @@ from scs_host.sys.host import Host
 
 # --------------------------------------------------------------------------------------------------------------------
 
-home_dir = Host.home_dir()
-print("home_dir: %s" % home_dir)
+home_path = Host.home_path()
+print("home_path: %s" % home_path)
+
+scs_path = Host.scs_path()
+print("scs_path: %s" % scs_path)
 
 print("-")
-
-try:
-    lock_dir = Host.lock_dir()
-    print("lock_dir: %s" % lock_dir)
-except NotImplementedError:
-    print("lock_dir: None")
-
-try:
-    tmp_dir = Host.tmp_dir()
-    print("tmp_dir: %s" % tmp_dir)
-except NotImplementedError:
-    print("tmp_dir: None")
-
-try:
-    command_dir = Host.command_dir()
-    print("command_dir: %s" % command_dir)
-except NotImplementedError:
-    print("command_dir: None")
-
-print("-")
-
-scs_dir = Host.scs_dir()
-print("scs_dir: %s" % scs_dir)
-
-home_dir = Host.home_dir()
-print("home_dir: %s" % home_dir)
 
 conf_dir = Host.conf_dir()
 print("conf_dir: %s" % conf_dir)
