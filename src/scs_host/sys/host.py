@@ -14,11 +14,12 @@ from pathlib import Path
 
 from scs_core.sys.ipv4_address import IPv4Address
 from scs_core.sys.node import Node
+from scs_core.sys.persistence_manager import FilesystemPersistenceManager
 
 
 # --------------------------------------------------------------------------------------------------------------------
 
-class Host(Node):
+class Host(Node, FilesystemPersistenceManager):
     """
     Any Darwin Mac or Linux
     """
@@ -39,21 +40,7 @@ class Host(Node):
 
 
     # ----------------------------------------------------------------------------------------------------------------
-
-    @classmethod
-    def software_update_report(cls):
-        try:
-            f = open(os.path.join(cls.scs_path(), cls.__LATEST_UPDATE))
-            report = f.read().strip()
-            f.close()
-
-            return report
-
-        except FileNotFoundError:
-            return None
-
-
-    # ----------------------------------------------------------------------------------------------------------------
+    # network identity...
 
     @classmethod
     def name(cls):
@@ -69,6 +56,23 @@ class Host(Node):
 
 
     # ----------------------------------------------------------------------------------------------------------------
+    # software update...
+
+    @classmethod
+    def software_update_report(cls):
+        try:
+            f = open(os.path.join(cls.scs_path(), cls.__LATEST_UPDATE))
+            report = f.read().strip()
+            f.close()
+
+            return report
+
+        except FileNotFoundError:
+            return None
+
+
+    # ----------------------------------------------------------------------------------------------------------------
+    # filesystem paths...
 
     @classmethod
     def home_path(cls):
