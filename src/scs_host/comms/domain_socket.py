@@ -56,7 +56,7 @@ class DomainSocket(ProcessComms):
         self.__path = path                  # string
 
         self.__socket = None                # socket.socket
-        self.__conn = None
+        self.__conn = None                  # (socket object, address info)
 
 
     # ----------------------------------------------------------------------------------------------------------------
