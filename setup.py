@@ -1,6 +1,5 @@
 """
 Created on 4 Sep 2020
-Updated 23 Dec 2020
 
 @author: Jade Page (jade.page@southcoastscience.com)
 https://packaging.python.org/tutorials/packaging-projects/
@@ -16,7 +15,7 @@ with open('requirements.txt') as req_txt:
 
 setuptools.setup(
     name="scs-host-posix",
-    version="1.0.3",
+    version="1.0.5",
     author="South Coast Science",
     author_email="contact@southcoastscience.com",
     description="Host abstractions for data consumers running POSIX-compliant operating systems, including Windows 10.",
