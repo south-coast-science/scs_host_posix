@@ -24,7 +24,7 @@ class StdIO(ProcessComms):
     classdocs
     """
 
-    __HISTORY_LENGTH =  1000
+    __HISTORY_LENGTH =  100
     __VOCABULARY = []
 
     __COMPLETION_DEFAULT =    'tab: complete'
