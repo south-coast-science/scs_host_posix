@@ -23,7 +23,7 @@ from scs_core.sys.persistence_manager import FilesystemPersistenceManager
 
 class Host(Node, FilesystemPersistenceManager):
     """
-    Any Darwin Mac or Linux
+    Darwin, Linux or Windows 10
     """
 
     # ----------------------------------------------------------------------------------------------------------------
