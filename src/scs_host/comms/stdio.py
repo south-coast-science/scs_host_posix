@@ -14,6 +14,7 @@ import readline
 import sys
 import termios
 
+from scs_core.sys.filesystem import Filesystem
 from scs_core.sys.process_comms import ProcessComms
 
 
@@ -81,7 +82,7 @@ class StdIO(ProcessComms):
             try:
                 readline.read_history_file(filename)
             except PermissionError:                         # macOS does this sometimes for no good reason
-                pass
+                Filesystem.rm(filename)
 
 
     @classmethod
