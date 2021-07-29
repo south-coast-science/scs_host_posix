@@ -25,7 +25,7 @@ print(uds)
 while True:
     try:
         uds.connect()
-        uds.write("Hello UDS!", True)
+        uds.write("Hello UDS!")
 
     finally:
         uds.close()     # not needed - just to check a closed connection can be closed
