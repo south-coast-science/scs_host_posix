@@ -14,7 +14,7 @@ import readline
 import sys
 import termios
 
-from scs_core.sys.filesystem import Filesystem
+from scs_core.sys.logging import Logging
 from scs_core.sys.process_comms import ProcessComms
 
 
@@ -64,7 +64,7 @@ class StdIO(ProcessComms):
     @classmethod
     def clear(cls):
         cls.__VOCABULARY = ()
-        readline.set_completer(None)
+        readline.set_completer()
 
         readline.clear_history()
 
@@ -81,8 +81,10 @@ class StdIO(ProcessComms):
         if os.path.exists(filename):
             try:
                 readline.read_history_file(filename)
-            except PermissionError:                         # macOS does this sometimes for no good reason
-                Filesystem.rm(filename)
+            except PermissionError as ex:                         # macOS does this sometimes for no good reason
+                logger = Logging.getLogger()
+                logger.error("PermissionError: %s: %s" % (filename, ex))
+                # Filesystem.rm(filename)
 
 
     @classmethod
