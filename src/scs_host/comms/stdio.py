@@ -34,7 +34,7 @@ class StdIO(ProcessComms):
     # ----------------------------------------------------------------------------------------------------------------
 
     @staticmethod
-    def prompt(prompt_str):
+    def prompt(prompt_str, default=''):
         try:
             termios.tcflush(sys.stdin, termios.TCIOFLUSH)           # flush stdin
         except termios.error:
@@ -42,7 +42,7 @@ class StdIO(ProcessComms):
 
         line = input(prompt_str).strip()
 
-        return line.strip()
+        return line if line else default
 
 
     # ----------------------------------------------------------------------------------------------------------------
