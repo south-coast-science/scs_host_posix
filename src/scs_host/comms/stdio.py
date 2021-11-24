@@ -34,11 +34,16 @@ class StdIO(ProcessComms):
     # ----------------------------------------------------------------------------------------------------------------
 
     @staticmethod
-    def prompt(prompt_str, default=''):
+    def prompt(request, default=''):
         try:
             termios.tcflush(sys.stdin, termios.TCIOFLUSH)           # flush stdin
         except termios.error:
             pass
+
+        try:
+            prompt_str = request % default if default else request
+        except TypeError:
+            prompt_str = request
 
         line = input(prompt_str).strip()
 
@@ -90,7 +95,7 @@ class StdIO(ProcessComms):
     @classmethod
     def save_history(cls, filename):
         readline.set_history_length(cls.__HISTORY_LENGTH)
-        readline.write_history_file(filename)
+        readline.write_history_file(filename=filename)
 
 
     # ----------------------------------------------------------------------------------------------------------------
