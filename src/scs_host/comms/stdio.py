@@ -43,7 +43,7 @@ class StdIO(ProcessComms):
         try:
             prompt_str = request % default if default else request
         except TypeError:
-            prompt_str = request
+            prompt_str = request            # no % format in request string
 
         line = input(prompt_str).strip()
 
@@ -86,7 +86,7 @@ class StdIO(ProcessComms):
         if os.path.exists(filename):
             try:
                 readline.read_history_file(filename)
-            except PermissionError as ex:                         # macOS does this sometimes for no good reason
+            except PermissionError as ex:                   # macOS darwin does this sometimes for no good reason
                 logger = Logging.getLogger()
                 logger.error("PermissionError: %s: %s" % (filename, ex))
                 # Filesystem.rm(filename)
@@ -95,7 +95,7 @@ class StdIO(ProcessComms):
     @classmethod
     def save_history(cls, filename):
         readline.set_history_length(cls.__HISTORY_LENGTH)
-        readline.write_history_file(filename=filename)
+        readline.write_history_file(filename)
 
 
     # ----------------------------------------------------------------------------------------------------------------
