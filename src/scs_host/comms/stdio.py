@@ -14,7 +14,6 @@ import readline
 import sys
 import termios
 
-from scs_core.sys.logging import Logging
 from scs_core.sys.process_comms import ProcessComms
 
 
@@ -34,15 +33,20 @@ class StdIO(ProcessComms):
     # ----------------------------------------------------------------------------------------------------------------
 
     @staticmethod
-    def prompt(prompt_str):
+    def prompt(request, default=''):
         try:
             termios.tcflush(sys.stdin, termios.TCIOFLUSH)           # flush stdin
         except termios.error:
             pass
 
+        try:
+            prompt_str = request % default if default else request
+        except TypeError:
+            prompt_str = request            # no % format in request string
+
         line = input(prompt_str).strip()
 
-        return line.strip()
+        return line if line else default
 
 
     # ----------------------------------------------------------------------------------------------------------------
@@ -81,11 +85,11 @@ class StdIO(ProcessComms):
         if os.path.exists(filename):
             try:
                 readline.read_history_file(filename)
-            except PermissionError as ex:                         # macOS does this sometimes for no good reason
-                logger = Logging.getLogger()
-                logger.error("PermissionError: %s: %s" % (filename, ex))
+            except PermissionError:                     # macOS darwin does this sometimes for no good reason
+                # logger = Logging.getLogger()
+                # logger.error("PermissionError: %s: %s" % (filename, ex))
                 # Filesystem.rm(filename)
-
+                pass
 
     @classmethod
     def save_history(cls, filename):
