@@ -14,7 +14,6 @@ import readline
 import sys
 import termios
 
-from scs_core.sys.logging import Logging
 from scs_core.sys.process_comms import ProcessComms
 
 
@@ -86,7 +85,7 @@ class StdIO(ProcessComms):
         if os.path.exists(filename):
             try:
                 readline.read_history_file(filename)
-            except PermissionError as ex:                   # macOS darwin does this sometimes for no good reason
+            except PermissionError:                     # macOS darwin does this sometimes for no good reason
                 # logger = Logging.getLogger()
                 # logger.error("PermissionError: %s: %s" % (filename, ex))
                 # Filesystem.rm(filename)
