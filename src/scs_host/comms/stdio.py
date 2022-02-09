@@ -87,10 +87,10 @@ class StdIO(ProcessComms):
             try:
                 readline.read_history_file(filename)
             except PermissionError as ex:                   # macOS darwin does this sometimes for no good reason
-                logger = Logging.getLogger()
-                logger.error("PermissionError: %s: %s" % (filename, ex))
+                # logger = Logging.getLogger()
+                # logger.error("PermissionError: %s: %s" % (filename, ex))
                 # Filesystem.rm(filename)
-
+                pass
 
     @classmethod
     def save_history(cls, filename):
