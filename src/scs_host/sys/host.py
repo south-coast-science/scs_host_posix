@@ -38,7 +38,7 @@ class Host(Node, FilesystemPersistenceManager):
     # ----------------------------------------------------------------------------------------------------------------
     # host acting as DHCP server...
 
-    __SERVER_IPV4_ADDRESS =      None                           # had-coded abs path
+    __SERVER_IPV4_ADDRESS = "192.168.2.1"                       # had-coded abs path - was None
 
 
     # ----------------------------------------------------------------------------------------------------------------
