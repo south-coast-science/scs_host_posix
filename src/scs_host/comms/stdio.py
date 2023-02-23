@@ -14,6 +14,8 @@ import readline
 import sys
 import termios
 
+from getpass import getpass
+
 from scs_core.sys.process_comms import ProcessComms
 
 
@@ -47,6 +49,16 @@ class StdIO(ProcessComms):
         line = input(prompt_str).strip()
 
         return line if line else default
+
+
+    @staticmethod
+    def password(request):
+        try:
+            termios.tcflush(sys.stdin, termios.TCIOFLUSH)           # flush stdin
+        except termios.error:
+            pass
+
+        return getpass(request).strip()
 
 
     # ----------------------------------------------------------------------------------------------------------------

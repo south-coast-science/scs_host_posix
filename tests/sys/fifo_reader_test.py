@@ -31,8 +31,8 @@ try:
         time.sleep(0.1)             # required to prevent a tight loop
 
 
-except KeyboardInterrupt as ex:
-    print("fifo_reader_test: KeyboardInterrupt", file=sys.stderr)
+except KeyboardInterrupt:
+    print(file=sys.stderr)
 
 finally:
     if fifo_reader:
