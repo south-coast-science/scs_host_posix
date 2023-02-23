@@ -31,8 +31,8 @@ try:
         now = LocalizedDatetime.now()
         print("%s: got:[%s]" % (now.as_iso8601(), message))
 
-except KeyboardInterrupt as ex:
-    print("uds_reader_test: KeyboardInterrupt", file=sys.stderr)
+except KeyboardInterrupt:
+    print(file=sys.stderr)
 
 finally:
     uds.close()
