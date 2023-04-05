@@ -21,7 +21,7 @@ try:
     StdIO.set(history_filename=filename, vocabulary=vocabulary)
 
     while True:
-        line = StdIO.prompt('test > ')
+        line = StdIO.prompt('test')
         print("line: %s" % line)
         print("-")
 
