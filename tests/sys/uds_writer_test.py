@@ -17,7 +17,7 @@ from scs_host.comms.domain_socket import DomainSocket
 
 # --------------------------------------------------------------------------------------------------------------------
 
-server_address = '/Users/bruno/Python/Mac/scs_analysis/scs_analysis/osio_mqtt_sub.uds'
+server_address = '/Users/bruno/Python/Mac/scs_analysis/scs_analysis/aws_mqtt_sub.uds'
 
 uds = DomainSocket(server_address)
 print(uds)
