@@ -5,6 +5,8 @@ Created on 27 May 2017
 
 A stdio abstraction, implementing ProcessComms
 
+https://stackoverflow.com/questions/58479686/permissionerror-errno-1-operation-not-permitted-after-macos-catalina-update
+
 https://sites.google.com/site/xiangyangsite/home/technical-tips/software-development/python/python-readline-completions
 https://stackoverflow.com/questions/675370/tab-completion-in-python-interpreter-in-os-x-terminal
 """
@@ -16,7 +18,6 @@ import termios
 
 from getpass import getpass
 
-from scs_core.sys.filesystem import Filesystem
 from scs_core.sys.logging import Logging
 from scs_core.sys.process_comms import ProcessComms
 
@@ -46,7 +47,7 @@ class StdIO(ProcessComms):
         try:
             prompt_str = request + ' (%s): ' % default if default else request + ': '
         except TypeError:
-            prompt_str = request + ': '            # no % format in request string
+            prompt_str = request + ': '                             # no % format in request string
 
         line = input(prompt_str).strip()
 
@@ -99,11 +100,9 @@ class StdIO(ProcessComms):
         if os.path.exists(filename):
             try:
                 readline.read_history_file(filename)
-            except PermissionError as ex:                     # macOS darwin does this sometimes for no good reason
+            except PermissionError as ex:
                 logger = Logging.getLogger()
                 logger.error("PermissionError: %s: %s" % (filename, ex))
-                Filesystem.rm(filename)
-                pass
 
 
     @classmethod
@@ -129,5 +128,5 @@ class StdIO(ProcessComms):
             yield line.strip()
 
 
-    def write(self, message, wait_for_availability=True):       # message should be flushed on close
+    def write(self, message, wait_for_availability=True):           # message should be flushed on close
         print(message.strip())
