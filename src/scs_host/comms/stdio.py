@@ -14,13 +14,15 @@ import os
 import sys
 import termios
 
-import gnureadline as readline
-# import readline
-
 from getpass import getpass
 
 from scs_core.sys.logging import Logging
 from scs_core.sys.process_comms import ProcessComms
+
+try:
+    import gnureadline as readline
+except ImportError:
+    import readline
 
 
 # --------------------------------------------------------------------------------------------------------------------
