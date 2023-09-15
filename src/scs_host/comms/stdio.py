@@ -5,14 +5,14 @@ Created on 27 May 2017
 
 A stdio abstraction, implementing ProcessComms
 
-https://stackoverflow.com/questions/58479686/permissionerror-errno-1-operation-not-permitted-after-macos-catalina-update
+WARNING: macOS (darwin) users must install the gnureadline package
 
 https://sites.google.com/site/xiangyangsite/home/technical-tips/software-development/python/python-readline-completions
 https://stackoverflow.com/questions/675370/tab-completion-in-python-interpreter-in-os-x-terminal
+https://stackoverflow.com/questions/70735564/python-readline-module-giving-permissionerror-errno-1-only-when-run-at-startu
 """
 
 import os
-import readline
 import sys
 import termios
 
@@ -20,6 +20,11 @@ from getpass import getpass
 
 from scs_core.sys.logging import Logging
 from scs_core.sys.process_comms import ProcessComms
+
+try:
+    import gnureadline as readline
+except ImportError:
+    import readline
 
 
 # --------------------------------------------------------------------------------------------------------------------
@@ -33,7 +38,7 @@ class StdIO(ProcessComms):
     __VOCABULARY = []
 
     __READLINE_COMPLETION_DEFAULT = 'tab: complete'
-    __READLINE_COMPLETION_DARWIN = 'bind ^I rl_complete'
+    # __READLINE_COMPLETION_DARWIN = 'bind ^I rl_complete'
 
     # ----------------------------------------------------------------------------------------------------------------
 
@@ -71,7 +76,9 @@ class StdIO(ProcessComms):
         # completion...
         cls.__VOCABULARY = vocabulary
 
-        binding = cls.__READLINE_COMPLETION_DARWIN if sys.platform == 'darwin' else cls.__READLINE_COMPLETION_DEFAULT
+        binding = cls.__READLINE_COMPLETION_DEFAULT
+        # binding = cls.__READLINE_COMPLETION_DARWIN if sys.platform == 'darwin' else cls.__READLINE_COMPLETION_DEFAULT
+
         readline.parse_and_bind(binding)
         readline.set_completer(cls.completer)
 
@@ -84,7 +91,6 @@ class StdIO(ProcessComms):
     def clear(cls):
         cls.__VOCABULARY = ()
         readline.set_completer()
-
         readline.clear_history()
 
 
