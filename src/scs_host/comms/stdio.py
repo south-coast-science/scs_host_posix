@@ -5,6 +5,8 @@ Created on 27 May 2017
 
 A stdio abstraction, implementing ProcessComms
 
+WARNING: macOS (darwin) users must install the gnureadline package
+
 https://sites.google.com/site/xiangyangsite/home/technical-tips/software-development/python/python-readline-completions
 https://stackoverflow.com/questions/675370/tab-completion-in-python-interpreter-in-os-x-terminal
 https://stackoverflow.com/questions/70735564/python-readline-module-giving-permissionerror-errno-1-only-when-run-at-startu
@@ -36,7 +38,7 @@ class StdIO(ProcessComms):
     __VOCABULARY = []
 
     __READLINE_COMPLETION_DEFAULT = 'tab: complete'
-    __READLINE_COMPLETION_DARWIN = 'bind ^I rl_complete'
+    # __READLINE_COMPLETION_DARWIN = 'bind ^I rl_complete'
 
     # ----------------------------------------------------------------------------------------------------------------
 
