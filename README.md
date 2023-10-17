@@ -6,7 +6,7 @@ _Contains library classes only._
 **Required libraries:** 
 
 * Third party (always required): AWSIoTPythonSDK, tzlocal
-* Third party (to enable OSIO data access) paho-mqtt, pycurl
+* Third party (to enable OSIO data access) paho-mqtt
 * SCS root: scs_core
 
 
