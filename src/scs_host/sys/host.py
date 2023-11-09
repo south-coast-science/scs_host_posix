@@ -3,8 +3,8 @@ Created on 20 Nov 2016
 
 @author: Bruno Beloff (bruno.beloff@southcoastscience.com)
 
-http://stackoverflow.com/questions/4271740/how-can-i-use-python-to-get-the-system-hostname
-http://code.activestate.com/recipes/577972-disk-usage/
+https://stackoverflow.com/questions/4271740/how-can-i-use-python-to-get-the-system-hostname
+https://code.activestate.com/recipes/577972-disk-usage/
 """
 
 import os
