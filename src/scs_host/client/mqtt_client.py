@@ -4,9 +4,9 @@ Created on 11 Nov 2016
 @author: Bruno Beloff (bruno.beloff@southcoastscience.com)
 
 https://pypi.python.org/pypi/paho-mqtt
-http://www.hivemq.com/blog/mqtt-client-library-paho-python
-http://www.hivemq.com/blog/mqtt-essentials-part-6-mqtt-quality-of-service-levels
-http://stackoverflow.com/questions/41624697/mqtt-python-subscribe-to-multiple-topics-and-write-payloads-on-raspberry-lcd
+https://www.hivemq.com/blog/mqtt-client-library-paho-python
+https://www.hivemq.com/blog/mqtt-essentials-part-6-mqtt-quality-of-service-levels
+https://stackoverflow.com/questions/41624697/mqtt-python-subscribe-to-multiple-topics-and-write-payloads-on-raspberry-lcd
 
 mosquitto_pub -h mqtt.opensensors.io -i <DeviceID> -t /users/<UserName>/<TopicName> \
 -m 'This is a test message' -u <UserName> -P <Device Password>

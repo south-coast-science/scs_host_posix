@@ -19,7 +19,7 @@ import time
 fifo_reader = None
 
 try:
-    fifo_reader = open('test_pipe.fifo', 'r')
+    fifo_reader = open('test_pipe.fifo')
 
     print("reading...")
 
